@@ -2,9 +2,9 @@ import sbt.Keys.version
 
 /**
  * <interface> これを定義する
- * Usecase<Interfaceを提供>
- *   - Command<UsecaseのInput型>
- *   - Reply<UsecaseのOutput型>
+ * UseCase<Interfaceを提供>
+ *   - Command<UseCaseのInput型>
+ *   - Reply<UseCaseのOutput型>
  */
 lazy val useCase = project.in(file("useCase"))
 
@@ -25,14 +25,14 @@ lazy val domain = project.in(file("domain"))
  * controllerの実装
  * DIをする
  */
-lazy val applicationsWeb = Project("applications-web", file("applications/web"))
-  .enablePlugins(PlayScala)
-  .settings(
-    libraryDependencies ++= Seq( guice )
-  )
-  .dependsOn(domain)
-  .dependsOn(useCase)
-  .dependsOn(adaptersDbMySQL)
+//lazy val applicationsWeb = Project("applications-web", file("applications/web"))
+//  .enablePlugins(PlayScala)
+//  .settings(
+//    libraryDependencies ++= Seq( guice )
+//  )
+//  .dependsOn(domain)
+//  .dependsOn(useCase)
+//  .dependsOn(adaptersDbMySQL)
 
 /**
  * Databasesを取り扱う
@@ -40,14 +40,18 @@ lazy val applicationsWeb = Project("applications-web", file("applications/web"))
  * QueryProcessorの実装
  * repository以下はMysqlとかAWSとかつなぐとか何やっても良い
  */
-lazy val adaptersDbMySQL = Project("adapters-dbs-mysql", file("adapters/dbs/mysql"))
-  .dependsOn(domain)
+//lazy val adaptersDbMySQL = Project("adapters-dbs-mysql", file("adapters/dbs/mysql"))
+//  .dependsOn(domain)
+
+//lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
+//  .dependsOn(domain)
+
 
 lazy val aggregatedProjects = Seq[ProjectReference](
   useCase,
   domain,
-  adaptersDbMySQL,
-  applicationsWeb
+//  adaptersMemory,
+//  applicationsWeb
 )
 
 lazy val root = (project in file("."))
