@@ -15,7 +15,7 @@ lazy val useCase = project
 /**
   * 業務ロジック置き場
   *
- *   - Model[Entity,VO>
+  *   - Model[Entity,VO>
   *   　- domainのrepository<Interfaceを提供>
   *     - domainのqueryProcessor<Interfaceを提供>
   *   - Application(UseCase)の実装<Interactor>
@@ -49,13 +49,15 @@ lazy val domain = project
 //lazy val adaptersDbMySQL = Project("adapters-dbs-mysql", file("adapters/dbs/mysql"))
 //  .dependsOn(domain)
 
-//lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
-//  .dependsOn(domain)
+lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
+  .settings(commonSettings)
+  .settings(testSettings)
+  .dependsOn(domain)
 
 lazy val aggregatedProjects = Seq[ProjectReference](
   useCase,
-  domain
-  //  adaptersMemory,
+  domain,
+  adaptersMemory,
   //  applicationsWeb
 )
 

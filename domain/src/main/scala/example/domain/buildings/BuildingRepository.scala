@@ -1,11 +1,12 @@
 package example.domain.buildings
 
 import example.core.errors.DomainError
-import example.domain.buildings.models.{Building, BuildingId, BuildingName}
 
 trait BuildingRepository {
 
-  def store(building: Building): Either[DomainError, Building]
+  def store(building: Building): Either[DomainError, Unit]
+
+  //def storeMulti(building: Building): Either[DomainError, Long]
 
   def findById(buildingId: BuildingId): Either[DomainError, Option[Building]]
 
@@ -15,6 +16,15 @@ trait BuildingRepository {
 
   def delete(buildingId: BuildingId): Either[DomainError, Boolean]
 
-  def clear(): Either[DomainError, Boolean]
+  //def deleteMulti(buildingId: BuildingId): Either[DomainError, Boolean]
+
+  def clear(): Either[DomainError, Unit]
 
 }
+
+//object BuildingRepository {
+//
+//  trait Dependent {
+//    protected[this] val building: BuildingRepository
+//  }
+//}
