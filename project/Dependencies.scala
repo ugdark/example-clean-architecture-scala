@@ -4,7 +4,7 @@ import sbt._
 object Dependencies {
 
   object Versions {
-    val scalaTestVersion = "3.2.1"
+    val scalaTestVersion = "3.2.0"
   }
 
   lazy val commonSettings = Seq(

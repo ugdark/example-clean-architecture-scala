@@ -1,29 +1,23 @@
 package example.adapters.memory.rooms
 
-import example.core.errors.DomainError
-import example.domain.buildings.{Building, BuildingId, BuildingName, BuildingRepository}
+import example.domain.buildings.{Building, BuildingId, BuildingRepository}
+
+import scala.util.Try
 
 class BuildingRepositoryOnMemory extends BuildingRepository {
   private[this] val storage: scala.collection.mutable.Map[BuildingId, Building] =
     scala.collection.mutable.Map.empty
 
-  override def store(entity: Building): Either[DomainError, Unit] = {
-    storage.update(entity.id, entity)
-    Right(())
-  }
+  override def store(entity: Building): Try[Unit] =
+    Try { storage.update(entity.id, entity) }
 
-  override def findById(buildingId: BuildingId): Either[DomainError, Option[Building]] =
-    Right(storage.get(buildingId))
+  override def storeMulti(entities: Seq[Building]): Try[Unit] = Try { entities.foreach(store) }
 
-  override def findByName(entity: BuildingName): Either[DomainError, Option[Building]] =
-    Right(storage.values.find(_.name == entity))
+  override def findById(buildingId: BuildingId): Try[Option[Building]] = Try { storage.get(buildingId) }
 
-  override def findAll(): Either[DomainError, Seq[Building]] = {
-    Right(storage.values.toSeq)
-  }
+  override def findAll(): Try[Seq[Building]] = Try { storage.values.toSeq }
 
-  override def delete(buildingId: BuildingId): Either[DomainError, Boolean] =
-    Right(storage.remove(buildingId).isDefined)
+  override def delete(buildingId: BuildingId): Try[Unit] = Try { storage.remove(buildingId) }
 
-  override def clear(): Either[DomainError, Unit] = Right(storage.clear())
+  override def clear(): Try[Unit] = Try { storage.clear() }
 }

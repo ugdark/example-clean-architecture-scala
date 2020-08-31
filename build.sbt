@@ -1,16 +1,15 @@
 import Dependencies._
 
-
-/**
-  * <interface> これを定義する
-  * UseCase<Interfaceを提供>
-  *   - Command<UseCaseのInput型>
-  *   - Reply<UseCaseのOutput型>
-  */
-lazy val useCase = project
-  .in(file("useCase"))
-  .settings(commonSettings)
-  .settings(testSettings)
+///**
+//  * <interface> これを定義する
+//  * UseCase<Interfaceを提供>
+//  *   - Command<UseCaseのInput型>
+//  *   - Reply<UseCaseのOutput型>
+//  */
+//lazy val useCase = project
+//  .in(file("useCase"))
+//  .settings(commonSettings)
+//  .settings(testSettings)
 
 /**
   * 業務ロジック置き場
@@ -24,7 +23,10 @@ lazy val domain = project
   .in(file("domain"))
   .settings(commonSettings)
   .settings(testSettings)
-  .dependsOn(useCase)
+
+lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
+  .settings(commonSettings)
+  .dependsOn(domain)
 
 /**
   * 実際に動かすサービスのインスタンス
@@ -49,16 +51,27 @@ lazy val domain = project
 //lazy val adaptersDbMySQL = Project("adapters-dbs-mysql", file("adapters/dbs/mysql"))
 //  .dependsOn(domain)
 
-lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
+// 実体置き場
+lazy val inject = project
+  .in(file("inject"))
+  .settings(commonSettings)
+  .dependsOn(domain)
+  .dependsOn(adaptersMemory)
+
+// テスト置き場
+lazy val test = project
+  .in(file("test"))
   .settings(commonSettings)
   .settings(testSettings)
-  .dependsOn(domain)
+  .dependsOn(inject)
 
 lazy val aggregatedProjects = Seq[ProjectReference](
-  useCase,
+//  useCase,
   domain,
   adaptersMemory,
   //  applicationsWeb
+  inject,
+  test
 )
 
 lazy val root = (project in file("."))

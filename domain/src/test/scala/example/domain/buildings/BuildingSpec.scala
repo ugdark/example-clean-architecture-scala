@@ -1,18 +1,16 @@
 package example.domain.buildings
 
-import org.scalatest.freespec.AnyFreeSpec
+import org.scalatest.wordspec.AnyWordSpec
 
-class BuildingSpec extends AnyFreeSpec {
+class BuildingSpec extends AnyWordSpec {
 
-//  "建物を作成する" in {
-//    val uuid = IDGenerator.uuid
-//    assert(
-//      Building(uuid, "一刻館") == Building(
-//          BuildingId(uuid),
-//          BuildingName("一刻館"),
-//
-//        )
-//    )
-//
-//  }
+  "名前だけで作成する" in {
+    assert(Building(name = "一刻館").name == BuildingName("一刻館"))
+  }
+
+  "すべての項目で作成する" in {
+    assert(Building(name = "一刻館").name == BuildingName("一刻館"))
+
+  }
+
 }

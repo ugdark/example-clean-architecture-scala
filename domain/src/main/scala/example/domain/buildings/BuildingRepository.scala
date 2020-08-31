@@ -1,30 +1,30 @@
 package example.domain.buildings
 
-import example.core.errors.DomainError
+import scala.util.Try
 
 trait BuildingRepository {
 
-  def store(building: Building): Either[DomainError, Unit]
+  def store(entity: Building): Try[Unit]
 
-  //def storeMulti(building: Building): Either[DomainError, Long]
+  def storeMulti(entities: Seq[Building]): Try[Unit]
 
-  def findById(buildingId: BuildingId): Either[DomainError, Option[Building]]
+  def findById(buildingId: BuildingId): Try[Option[Building]]
 
-  def findByName(building: BuildingName): Either[DomainError, Option[Building]]
+  def findAll(): Try[Seq[Building]]
 
-  def findAll(): Either[DomainError, Seq[Building]]
+  def delete(buildingId: BuildingId): Try[Unit]
 
-  def delete(buildingId: BuildingId): Either[DomainError, Boolean]
-
-  //def deleteMulti(buildingId: BuildingId): Either[DomainError, Boolean]
-
-  def clear(): Either[DomainError, Unit]
+  def clear(): Try[Unit]
 
 }
 
-//object BuildingRepository {
-//
-//  trait Dependent {
-//    protected[this] val building: BuildingRepository
-//  }
-//}
+object BuildingRepository {
+
+  /**
+    * 依存する側は定義する
+    */
+  trait Dependent {
+    protected[this] val buildingRepository: BuildingRepository
+  }
+
+}
