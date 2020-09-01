@@ -1,15 +1,14 @@
 package example.domain.basic
 
 /**
- * 郵便番号を表す
- * @param areaCode 郵便区分
- * @param cityCode 町域
- */
+  * 郵便番号を表す
+  * @param areaCode 郵便区分
+  * @param cityCode 町域
+  */
 case class ZipCode(areaCode: String, cityCode: String) {
   require(areaCode.length == 3, "areaCode is 3 length.")
   require(cityCode.length == 4, "cityCode is 4 length.")
 }
-
 
 object ZipCode {
 

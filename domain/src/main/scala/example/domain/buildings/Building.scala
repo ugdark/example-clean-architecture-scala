@@ -14,10 +14,10 @@ case class Building(
 object Building {
 
   def apply(
-             id: String = IdGenerator.uuid,
-             name: String,
-             createdAt: ZonedDateTime = ZonedDateTime.now(),
-             updatedAt: Option[ZonedDateTime] = None
+      id: String = IdGenerator.uuid,
+      name: String,
+      createdAt: ZonedDateTime = ZonedDateTime.now(),
+      updatedAt: Option[ZonedDateTime] = None
   ): Building =
     new Building(BuildingId(id), BuildingName(name), createdAt, updatedAt)
   //def apply(id: String = IDGenerator.uuid, name: String):Building = Building(BuildingId(id), BuildingName(name))

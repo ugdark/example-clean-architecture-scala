@@ -19,4 +19,3 @@ trait RoomRepository {
 
   def clear(): Either[DomainError, Boolean]
 }
-
