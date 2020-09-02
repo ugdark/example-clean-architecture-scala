@@ -22,25 +22,21 @@ import Dependencies._
 lazy val domain = project
   .in(file("domain"))
   .settings(commonSettings)
-  .settings(testSettings)
 
 lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
   .settings(commonSettings)
   .dependsOn(domain)
 
-/**
-  * 実際に動かすサービスのインスタンス
-  * controllerの実装
-  * DIをする
-  */
-//lazy val applicationsWeb = Project("applications-web", file("applications/web"))
-//  .enablePlugins(PlayScala)
-//  .settings(
-//    libraryDependencies ++= Seq( guice )
-//  )
-//  .dependsOn(domain)
-//  .dependsOn(useCase)
-//  .dependsOn(adaptersDbMySQL)
+lazy val adaptersWeb = Project("adapters-web", file("adapters/web"))
+  .settings(commonSettings)
+  .settings(
+    libraryDependencies ++= Seq(
+        "com.typesafe.akka" %% "akka-http"            % Versions.akkaHttp,
+        "com.typesafe.akka" %% "akka-http-spray-json" % Versions.akkaHttp,
+        "com.typesafe.akka" %% "akka-stream"          % Versions.akka
+      )
+  )
+  .dependsOn(domain)
 
 /**
   * Databasesを取り扱う
@@ -57,6 +53,7 @@ lazy val inject = project
   .settings(commonSettings)
   .dependsOn(domain)
   .dependsOn(adaptersMemory)
+  .dependsOn(adaptersWeb)
 
 // テスト置き場
 lazy val test = project
@@ -66,10 +63,9 @@ lazy val test = project
   .dependsOn(inject)
 
 lazy val aggregatedProjects = Seq[ProjectReference](
-//  useCase,
   domain,
   adaptersMemory,
-  //  applicationsWeb
+  adaptersWeb,
   inject,
   test
 )

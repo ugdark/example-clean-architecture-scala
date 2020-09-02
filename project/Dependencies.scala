@@ -5,6 +5,9 @@ object Dependencies {
 
   object Versions {
     val scalaTestVersion = "3.2.0"
+    val akka = "2.6.8"
+    val akkaHttp = "10.2.0"
+
   }
 
   lazy val commonSettings = Seq(
