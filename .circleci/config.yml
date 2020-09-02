@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/exampleProject
+    docker:
+      # ちょっとVersion違うけどまーこれで
+      - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}
+            - dependencies
+      - run:
+          name: compile
+          command: sbt compile test:compile
+      - store_artifacts: # アーティファクト (https://circleci.com/ja/docs/2.0/artifacts/) に表示するため
+          path: target/universal/samplescala.zip
+          destination: samplescala
+      - save_cache:
+          key: dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}
+          paths:
+            - target
+            - project/project/target
+            - project/target
+            - "~/.ivy2/cache"
+            - "~/.sbt"
+            - "~/.m2"
+      - save_cache:
+          # 下の英語的によくわかっとらんけどいれてる。
+          # Changing this to a different key is the only way to remove old dependencies from the cache and/or generate a more up-to-date cache
+          key: dependencies
+          paths:
+            - ~/.sbt
+            - ~/.iv2/cache
+            - ~/.m2
+      - run:
+          name: test
+          command: sbt test
