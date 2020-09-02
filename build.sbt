@@ -1,33 +1,28 @@
 import Dependencies._
 
-///**
-//  * <interface> これを定義する
-//  * UseCase<Interfaceを提供>
-//  *   - Command<UseCaseのInput型>
-//  *   - Reply<UseCaseのOutput型>
-//  */
-//lazy val useCase = project
-//  .in(file("useCase"))
-//  .settings(commonSettings)
-//  .settings(testSettings)
+/**
+ * 全体図
+ * apps     -> inject -> domain <- adapters
+ * tests    -> inject
+ * testsで全部testを書く
+ * 但しOnMySQL等がある場合にDB固有の確認がしたい場合はtestはそちらで書くとする。
+ */
 
 /**
   * 業務ロジック置き場
-  *
-  *   - Model[Entity,VO>
+  * (UseCaseとDomainととりあえず共通ライブラリ置き場)
+  *   - application(UseCase)の実装<Interactor>
+  *   - domain[Entity,VO>
   *   　- domainのrepository<Interfaceを提供>
-  *     - domainのqueryProcessor<Interfaceを提供>
-  *   - Application(UseCase)の実装<Interactor>
   */
-lazy val domain = project
-  .in(file("domain"))
+lazy val domain = project.in(file("modules/domain"))
   .settings(commonSettings)
 
-lazy val adaptersMemory = Project("adapters-memory", file("adapters/memory"))
+lazy val adaptersMemory = Project("adapters-memory", file("modules/adapters/memory"))
   .settings(commonSettings)
   .dependsOn(domain)
 
-lazy val adaptersWeb = Project("adapters-web", file("adapters/web"))
+lazy val adaptersWeb = Project("adapters-web", file("modules/adapters/web"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
@@ -48,26 +43,37 @@ lazy val adaptersWeb = Project("adapters-web", file("adapters/web"))
 //  .dependsOn(domain)
 
 // 実体置き場
-lazy val inject = project
-  .in(file("inject"))
+lazy val inject = project.in(file("modules/inject"))
   .settings(commonSettings)
   .dependsOn(domain)
   .dependsOn(adaptersMemory)
   .dependsOn(adaptersWeb)
 
 // テスト置き場
-lazy val test = project
-  .in(file("test"))
+lazy val tests = project
+  .in(file("tests"))
   .settings(commonSettings)
   .settings(testSettings)
   .dependsOn(inject)
+
+// applications
+lazy val exampleWeb = project.in(file("apps/web"))
+  .settings(commonSettings)
+  .dependsOn(inject)
+
+lazy val exampleCli = project.in(file("apps/cli"))
+  .settings(commonSettings)
+  .dependsOn(inject)
+
 
 lazy val aggregatedProjects = Seq[ProjectReference](
   domain,
   adaptersMemory,
   adaptersWeb,
   inject,
-  test
+  tests,
+  exampleWeb,
+  exampleCli
 )
 
 lazy val root = (project in file("."))
