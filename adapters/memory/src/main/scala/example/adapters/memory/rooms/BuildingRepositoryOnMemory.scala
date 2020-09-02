@@ -1,6 +1,6 @@
 package example.adapters.memory.rooms
 
-import example.domain.buildings.{Building, BuildingId, BuildingRepository}
+import example.domain.building.{Building, BuildingId, BuildingRepository}
 
 import scala.util.Try
 

@@ -1,6 +1,6 @@
 package example.inject.application
 
-import example.domain.buildings.BuildingRepository
+import example.domain.building.BuildingRepository
 
 //実際のサービスで稼働させるInjectを設定する
 object CreateBuildingUseCase extends example.application.CreateBuildingUseCase.Interactor {

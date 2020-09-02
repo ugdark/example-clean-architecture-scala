@@ -1,4 +1,4 @@
-package example.domain.buildings
+package example.domain.building
 
 import java.time.ZonedDateTime
 

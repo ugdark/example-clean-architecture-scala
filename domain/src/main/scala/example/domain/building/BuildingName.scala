@@ -1,4 +1,4 @@
-package example.domain.buildings
+package example.domain.building
 
 case class BuildingName(value: String) {
   require(Option(value).isDefined)

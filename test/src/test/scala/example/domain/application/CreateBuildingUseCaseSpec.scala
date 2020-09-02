@@ -2,7 +2,7 @@ package example.domain.application
 
 import example.application.CreateBuildingUseCase
 import example.application.CreateBuildingUseCase.Reply
-import example.domain.buildings.{Building, BuildingName, BuildingRepository}
+import example.domain.building.{Building, BuildingName, BuildingRepository}
 import org.scalatest.wordspec.AnyWordSpec
 
 class CreateBuildingUseCaseSpec extends AnyWordSpec {
@@ -23,9 +23,7 @@ class CreateBuildingUseCaseSpec extends AnyWordSpec {
             example.inject.buildings.BuildingRepository.OnMemory
         }
 
-        val article: Unit = createBuildingUseCase.execute(command)
-        assert(article == ())
-
+        createBuildingUseCase.execute(command)
         assert(entity.name == BuildingName(command.name))
 
       }

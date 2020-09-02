@@ -1,9 +1,9 @@
 package example.application
 
-import example.domain.buildings.{Building, BuildingRepository}
+import example.domain.building.{Building, BuildingRepository}
 import example.domain.errors.UseCaseError
 
-trait CreateBuildingUseCase {
+trait CreateBuildingUseCase extends BuildingRepository.Dependent {
   // 必要があれば拡張する
   protected[this] val presenter: CreateBuildingUseCase.Presenter = new CreateBuildingUseCase.Presenter() {}
 
@@ -27,7 +27,7 @@ object CreateBuildingUseCase {
     protected[this] val createBuildingUseCase: CreateBuildingUseCase
   }
 
-  trait Interactor extends CreateBuildingUseCase with BuildingRepository.Dependent {
+  trait Interactor extends CreateBuildingUseCase {
     override def execute(command: CreateBuildingUseCase.Command): Unit = {
       try {
         val entity = Building(name = command.name)
