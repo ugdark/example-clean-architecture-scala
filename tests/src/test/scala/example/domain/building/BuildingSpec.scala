@@ -2,9 +2,10 @@ package example.domain.building
 
 import java.time.ZonedDateTime
 
+import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.wordspec.AnyWordSpec
 
-class BuildingSpec extends AnyWordSpec {
+class BuildingSpec extends AnyFreeSpec {
 
   "名前だけで作成する" in {
     assert(Building(name = "一刻館").name == BuildingName("一刻館"))
