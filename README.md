@@ -3,6 +3,13 @@
 
 - クリーンアーキテクチャの理解
 
+### format使い方
+
+```bash
+$ sbt scalafmtCheck test:scalafmtCheck scalafmtSbtCheck // fmt検証 fmtとcheckもうちょっと理解したい
+$ sbt scalafmt test:scalafmt scalafmtSbt // fmt実行 ideaにてpluginで適応されてるなら不要
+```
+
 
 # Webの起動方法
 

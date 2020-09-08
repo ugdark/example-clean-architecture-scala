@@ -1,12 +1,12 @@
 import Dependencies._
 
 /**
- * 全体図
- * apps     -> inject -> domain <- adapters
- * tests    -> inject
- * testsで全部testを書く
- * 但しOnMySQL等がある場合にDB固有の確認がしたい場合はtestはそちらで書くとする。
- */
+  * 全体図
+  * apps     -> inject -> domain <- adapters
+  * tests    -> inject
+  * testsで全部testを書く
+  * 但しOnMySQL等がある場合にDB固有の確認がしたい場合はtestはそちらで書くとする。
+  */
 
 /**
   * 業務ロジック置き場
@@ -15,7 +15,8 @@ import Dependencies._
   *   - domain[Entity,VO>
   *   　- domainのrepository<Interfaceを提供>
   */
-lazy val domain = project.in(file("modules/domain"))
+lazy val domain = project
+  .in(file("modules/domain"))
   .settings(commonSettings)
 
 lazy val adaptersMemory = Project("adapters-memory", file("modules/adapters/memory"))
@@ -43,7 +44,8 @@ lazy val adaptersWeb = Project("adapters-web", file("modules/adapters/web"))
 //  .dependsOn(domain)
 
 // 実体置き場
-lazy val inject = project.in(file("modules/inject"))
+lazy val inject = project
+  .in(file("modules/inject"))
   .settings(commonSettings)
   .dependsOn(domain)
   .dependsOn(adaptersMemory)
@@ -57,14 +59,15 @@ lazy val tests = project
   .dependsOn(inject)
 
 // applications
-lazy val exampleWeb = project.in(file("apps/web"))
+lazy val exampleWeb = project
+  .in(file("apps/web"))
   .settings(commonSettings)
   .dependsOn(inject)
 
-lazy val exampleCli = project.in(file("apps/cli"))
+lazy val exampleCli = project
+  .in(file("apps/cli"))
   .settings(commonSettings)
   .dependsOn(inject)
-
 
 lazy val aggregatedProjects = Seq[ProjectReference](
   domain,
