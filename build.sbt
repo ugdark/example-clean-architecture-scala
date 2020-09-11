@@ -9,6 +9,17 @@ import Dependencies._
   */
 
 /**
+  * utility
+  * 業務に依存しないライブラリクラス
+  * - ロギング
+  * - Validation
+  */
+lazy val utility = project
+  .in(file("modules/utility"))
+  .settings(commonSettings)
+  .settings(testSettings)
+
+/**
   * 業務ロジック置き場
   * (UseCaseとDomainととりあえず共通ライブラリ置き場)
   *   - application(UseCase)の実装<Interactor>
