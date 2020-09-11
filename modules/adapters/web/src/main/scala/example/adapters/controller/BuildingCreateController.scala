@@ -53,4 +53,11 @@ object BuildingCreateController {
       )
   }
 
+  /**
+    * 依存する側は定義する
+    */
+  trait Dependent {
+    protected[this] val buildingCreateController: BuildingCreateController
+  }
+
 }

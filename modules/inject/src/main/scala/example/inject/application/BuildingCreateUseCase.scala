@@ -1,14 +1,19 @@
 package example.inject.application
 
-import example.domain.building.BuildingRepository
+import example.application
 
-class BuildingCreateUseCase extends example.application.BuildingCreateUseCase.Interactor {
-  override protected[this] val buildingRepository: BuildingRepository =
-    example.inject.buildings.BuildingRepository.OnMemory
-}
+class BuildingCreateUseCase
+    extends example.application.BuildingCreateUseCase.Interactor
+    with example.inject.buildings.BuildingRepository.Inject
 
-//実際のサービスで稼働させるInjectを設定する
-object BuildingCreateUseCase extends BuildingCreateUseCase {
-  override protected[this] val buildingRepository: BuildingRepository =
-    example.inject.buildings.BuildingRepository.OnMemory
+object BuildingCreateUseCase {
+
+  private object BuildingCreateUseCase extends BuildingCreateUseCase
+
+  /**
+    * 注入する側は定義する
+    */
+  trait Inject extends example.application.BuildingCreateUseCase.Dependent {
+    override protected[this] val buildingCreateUseCase: application.BuildingCreateUseCase = BuildingCreateUseCase
+  }
 }

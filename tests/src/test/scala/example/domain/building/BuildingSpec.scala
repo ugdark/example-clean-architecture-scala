@@ -3,7 +3,6 @@ package example.domain.building
 import java.time.ZonedDateTime
 
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.wordspec.AnyWordSpec
 
 class BuildingSpec extends AnyFreeSpec {
 

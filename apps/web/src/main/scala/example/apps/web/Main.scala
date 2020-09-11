@@ -4,12 +4,11 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import com.typesafe.config.ConfigFactory
-import example.inject.controller.BuildingCreateController
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 
-object Main {
+object Main extends example.inject.controller.BuildingCreateController.Inject {
 
   private implicit val system: ActorSystem                        = ActorSystem()
   private implicit val executionContext: ExecutionContextExecutor = system.dispatcher
@@ -18,7 +17,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    val route: Route = BuildingCreateController.route
+    val route: Route = buildingCreateController.route
 
     val bindingFuture = Http()
       .newServerAt(
