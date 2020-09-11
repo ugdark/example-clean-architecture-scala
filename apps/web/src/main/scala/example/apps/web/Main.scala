@@ -16,7 +16,7 @@ object Main {
 
   private[this] val config = ConfigFactory.load()
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
 
     val route: Route = BuildingCreateController.route
 
@@ -40,7 +40,7 @@ object Main {
 
     bindingFuture
       .flatMap(_.unbind())
-      .onComplete(_ ⇒ system.terminate())
+      .onComplete(_ => system.terminate())
 
   }
 }
