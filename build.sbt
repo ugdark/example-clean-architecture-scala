@@ -1,14 +1,6 @@
 import Dependencies._
 
 /**
-  * 全体図
-  * apps     -> inject -> domain <- adapters
-  * tests    -> inject
-  * testsで全部testを書く
-  * 但しOnMySQL等がある場合にDB固有の確認がしたい場合はtestはそちらで書くとする。
-  */
-
-/**
   * utility
   * 業務に依存しないライブラリクラス
   * - ロギング
