@@ -5,6 +5,9 @@ jobs:
     docker:
       # ちょっとVersion違うけどまーこれで
       - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
+        auth:
+          username: kokodayodevelop
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - restore_cache:
@@ -37,3 +40,4 @@ jobs:
       - run:
           name: test
           command: sbt test
+
