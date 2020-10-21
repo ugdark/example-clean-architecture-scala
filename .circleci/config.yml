@@ -12,31 +12,27 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}
+            - dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
             - dependencies
       - run:
           name: compile
           command: sbt compile test:compile
-      - store_artifacts: # アーティファクト (https://circleci.com/ja/docs/2.0/artifacts/) に表示するため
-          path: target/universal/samplescala.zip
-          destination: samplescala
       - save_cache:
-          key: dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}
+          name: "Library cache"
+          key: dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
           paths:
-            - target
-            - project/project/target
-            - project/target
-            - "~/.ivy2/cache"
-            - "~/.sbt"
-            - "~/.m2"
-      - save_cache:
-          # 下の英語的によくわかっとらんけどいれてる。
-          # Changing this to a different key is the only way to remove old dependencies from the cache and/or generate a more up-to-date cache
-          key: dependencies
-          paths:
+            # linuxだとここしといた方が良いらしい
+            - ~/.cache/coursier/v1
+            - ~/.ivy2/cache
             - ~/.sbt
-            - ~/.iv2/cache
             - ~/.m2
+            - modules/domain/target
+            - modules/adapters/memory/target
+            - modules/adapters/adaptersWeb/target
+            - modules/inject/target
+            - tests/target
+            - apps/web/target
+            - apps/cli/target
       - run:
           name: test
           command: sbt test

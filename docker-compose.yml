@@ -1,0 +1,30 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: ugdark-example-network
+
+services:
+  database:
+    image: mysql:5.7
+    volumes:
+      - "./.mysql:/var/lib/mysql"
+      - "./scripts/db:/docker-entrypoint-initdb.d"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "15001:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=database
+      - PMA_PORTS=15001
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    ports:
+      - 15002:80
+    volumes:
+      - /sessions
