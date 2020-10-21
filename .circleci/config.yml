@@ -1,13 +1,18 @@
 version: 2
-jobs:
-  build:
-    working_directory: ~/exampleProject
-    docker:
+
+
+defaults: &defaults
+  working_directory: ~/exampleProject
+  docker:
       # ちょっとVersion違うけどまーこれで
       - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
         auth:
           username: kokodayodevelop
           password: $DOCKERHUB_PASSWORD
+
+jobs:
+  build:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -16,9 +21,8 @@ jobs:
             - dependencies
       - run:
           name: compile
-          command: sbt compile test:compile
+          command: sbt compile
       - save_cache:
-          name: "Library cache"
           key: dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
           paths:
             # linuxだとここしといた方が良いらしい
@@ -36,4 +40,62 @@ jobs:
       - run:
           name: test
           command: sbt test
+
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-test-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
+            - dependencies-test
+      - run:
+          name: test:compile
+          command: test:compile
+      - save_cache:
+          key: dependencies-test-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
+          paths:
+            # linuxだとここしといた方が良いらしい
+            - ~/.cache/coursier/v1
+            - ~/.ivy2/cache
+            - ~/.sbt
+            - ~/.m2
+            - modules/domain/target
+            - modules/adapters/memory/target
+            - modules/adapters/adaptersWeb/target
+            - modules/inject/target
+            - tests/target
+            - apps/web/target
+            - apps/cli/target
+      - run:
+          name: test
+          command: sbt test
+#
+#  fmtGitHubCommit:
+#    working_directory: ~/exampleProject
+#    docker:
+#      # ちょっとVersion違うけどまーこれで
+#      - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
+#        auth:
+#          username: kokodayodevelop
+#          password: $DOCKERHUB_PASSWORD
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          keys:
+#            - dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
+#            - dependencies
+#      - run:
+#          name: format
+#          command: sbt scalafmt test:scalafmt scalafmtSbt
+#      - run: git reset --hard HEAD
+
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - test
 

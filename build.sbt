@@ -88,3 +88,9 @@ lazy val root = (project in file("."))
     name := "example-clean-architecture-scala"
   )
   .aggregate(aggregatedProjects: _*)
+
+// Documentation for this project:
+// sbt "project docs" "~ paradox"
+// open docs/target/paradox/site/main/index.html
+lazy val docs = (project in file("docs"))
+  .enablePlugins(ParadoxPlugin)
