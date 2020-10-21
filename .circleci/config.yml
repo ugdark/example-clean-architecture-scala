@@ -92,8 +92,10 @@ jobs:
             git config user.email "ugdark@gmail.com"
             git config user.name "ugdark"
             git add .
-            git commit -m 'updated format. {{ .Revision }}'
-            git push
+            git status
+            diff=$(git diff)
+            if [ -n "$diff"]; then; git commit -m 'updated format. ${CIRCLE_SHA1}';git push;fi
+
 
 
 #
