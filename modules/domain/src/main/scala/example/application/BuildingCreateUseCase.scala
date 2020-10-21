@@ -12,6 +12,9 @@ object BuildingCreateUseCase {
 
 case class Command(
 
+
+
+
                     name: String)
 
 case class Reply(

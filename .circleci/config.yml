@@ -83,12 +83,17 @@ jobs:
       - run:
           name: format
           command: sbt scalafmt test:scalafmt scalafmtSbt
-      - run: git status
-#      - run: git config user.email "ugdark+circleci@users.noreply.github.com"
-#      - run: git config user.name "ugdark+circleci"
-#      - run: git add .
-#      - run: git commit -m 'updated format. {{ .Revision }}'
-#      - run: git push origin {{ .Branch }}
+      - add_ssh_keys:
+          fingerprints:
+            - "fa:db:06:79:fc:b6:f8:ee:f1:4e:f9:04:96:d3:a3:42"
+      - run:
+          name: git push
+          command: |
+            git config user.email "ugdark@gmail.com"
+            git config user.name "ugdark"
+            git add .
+            git commit -m 'updated format. {{ .Revision }}'
+            git push
 
 
 #
