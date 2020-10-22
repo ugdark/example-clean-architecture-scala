@@ -14,6 +14,8 @@ object BuildingCreateUseCase {
 
 
 
+
+
                       name: String)
 
   case class Reply(entity: Building)

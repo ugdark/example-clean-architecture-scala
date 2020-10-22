@@ -88,7 +88,7 @@ jobs:
             - "fa:db:06:79:fc:b6:f8:ee:f1:4e:f9:04:96:d3:a3:42"
       - run:
           name: git push
-          command: |
+          command: scripts/sbt_format_git_push.sh
             git config user.email "ugdark@gmail.com"
             git config user.name "ugdark"
             git add .
