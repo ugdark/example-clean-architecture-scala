@@ -88,7 +88,8 @@ jobs:
             - "fa:db:06:79:fc:b6:f8:ee:f1:4e:f9:04:96:d3:a3:42"
       - run:
           name: git push
-          command: scripts/sbt_format_git_push.sh
+          # CIRCLE_SHA1がcircleCiで見た時のcommitで識別出来る為
+          command: scripts/sbt_format_git_push.sh ${CIRCLE_SHA1}
 
 
 
