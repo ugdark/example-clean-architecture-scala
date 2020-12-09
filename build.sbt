@@ -85,7 +85,15 @@ lazy val aggregatedProjects = Seq[ProjectReference](
 lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
-    name := "example-clean-architecture-scala"
+    name := "example-clean-architecture-scala",
+    commands ++= Seq(
+        Command.command("format") { st =>
+          Command.process("scalafmt; test:scalafmt; scalafmtSbt", st)
+        },
+        Command.command("formatCheck") { st =>
+          Command.process("scalafmtCheck; test:scalafmtCheck; scalafmtSbtCheck", st)
+        }
+      )
   )
   .aggregate(aggregatedProjects: _*)
 

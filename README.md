@@ -31,8 +31,8 @@ Guice, Airframe, MacWireなども検討したのだけど、ま〜好みです�
 ### format使い方
 
 ```bash
-$ sbt scalafmtCheck test:scalafmtCheck scalafmtSbtCheck // fmt検証 fmtとcheckもうちょっと理解したい
-$ sbt scalafmt test:scalafmt scalafmtSbt // fmt実行 ideaにてpluginで適応されてるなら不要
+$ sbt formatCheck // fmt検証
+$ sbt format      // fmt実行
 ```
 
 

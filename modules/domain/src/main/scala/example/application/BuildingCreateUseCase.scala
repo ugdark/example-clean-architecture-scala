@@ -10,13 +10,7 @@ trait BuildingCreateUseCase extends BuildingRepository.Dependent {
 
 object BuildingCreateUseCase {
 
-  case class Command(
-
-
-
-
-
-                      name: String)
+  case class Command(name: String)
 
   case class Reply(entity: Building)
 
