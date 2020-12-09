@@ -1,14 +1,16 @@
-version: 2
+version: 2.1
 
+orbs:
+  slack: circleci/slack@4.1.3
 
 defaults: &defaults
   working_directory: ~/exampleProject
   docker:
-      # ちょっとVersion違うけどまーこれで
-      - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
-        auth:
-          username: kokodayodevelop
-          password: $DOCKERHUB_PASSWORD
+    # ちょっとVersion違うけどまーこれで
+    - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
+      auth:
+        username: kokodayodevelop
+        password: $DOCKERHUB_PASSWORD
 
 jobs:
   build:
@@ -88,6 +90,12 @@ jobs:
           # CIRCLE_SHA1がcircleCiで見た時のcommitで識別出来る為
           command: scripts/sbt_format_git_push.sh ${CIRCLE_SHA1}
 
+  notify:
+    steps:
+      - slack/status:
+          success_message: ':circleCi-pass: $CIRCLE_BRANCH のデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
+          failure_message: ':circleCi-fail: $CIRCLE_BRANCH のデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
+          webhook: '${SLACK_WEBHOOK}'
 
 workflows:
   version: 2
@@ -96,3 +104,9 @@ workflows:
       - build
       - test
       - fmtGitHubCommit
+      - notify:
+          requires:
+            - build
+            - test
+            - fmtGitHubCommit
+
