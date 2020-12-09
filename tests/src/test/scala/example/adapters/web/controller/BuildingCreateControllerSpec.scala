@@ -1,9 +1,9 @@
-package example.adapters.controller
+package example.adapters.web.controller
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import example.adapters.controller.BuildingCreateController.PostResponse
+import BuildingCreateController.PostResponse
 import example.application.BuildingCreateUseCase
 import example.domain.building.BuildingRepository
 import org.scalatest.freespec.AnyFreeSpec

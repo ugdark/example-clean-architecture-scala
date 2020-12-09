@@ -1,7 +1,9 @@
 package example.inject.controller
 
+import example.adapters.web.controller
+
 class BuildingCreateController
-    extends example.adapters.controller.BuildingCreateController
+    extends controller.BuildingCreateController
     with example.inject.application.BuildingCreateUseCase.Inject
 
 object BuildingCreateController {
@@ -11,7 +13,7 @@ object BuildingCreateController {
   /**
     * 注入する側は定義する
     */
-  trait Inject extends example.adapters.controller.BuildingCreateController.Dependent {
+  trait Inject extends controller.BuildingCreateController.Dependent {
     override protected[this] val buildingCreateController: BuildingCreateController = BuildingCreateController
   }
 }

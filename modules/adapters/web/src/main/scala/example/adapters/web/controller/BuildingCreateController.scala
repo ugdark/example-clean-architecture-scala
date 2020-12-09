@@ -1,4 +1,4 @@
-package example.adapters.controller
+package example.adapters.web.controller
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes
@@ -25,7 +25,6 @@ trait BuildingCreateController extends BuildingCreateUseCase.Dependent with Spra
                   StatusCodes.Created -> PostResponse.create(reply.entity)
                 case _ => StatusCodes.BadRequest
               }
-
             }
           }
         }
