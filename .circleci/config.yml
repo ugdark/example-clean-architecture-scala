@@ -32,14 +32,11 @@ jobs:
             - ~/.m2
             - modules/domain/target
             - modules/adapters/memory/target
-            - modules/adapters/adaptersWeb/target
+            - modules/adapters/web/target
             - modules/inject/target
             - tests/target
             - apps/web/target
             - apps/cli/target
-      - run:
-          name: test
-          command: sbt test
 
   test:
     <<: *defaults
@@ -82,7 +79,7 @@ jobs:
             - dependencies
       - run:
           name: format
-          command: sbt scalafmt test:scalafmt scalafmtSbt
+          command: sbt format
       - add_ssh_keys:
           fingerprints:
             - "fa:db:06:79:fc:b6:f8:ee:f1:4e:f9:04:96:d3:a3:42"
@@ -92,29 +89,10 @@ jobs:
           command: scripts/sbt_format_git_push.sh ${CIRCLE_SHA1}
 
 
-
-#
-#  fmtGitHubCommit:
-#    working_directory: ~/exampleProject
-#    docker:
-#      # ちょっとVersion違うけどまーこれで
-#      - image: hseeberger/scala-sbt:8u222_1.3.7_2.13.1
-#        auth:
-#          username: kokodayodevelop
-#          password: $DOCKERHUB_PASSWORD
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          keys:
-#            - dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/Dependencies.scala" }}-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}
-#            - dependencies
-
-
-
 workflows:
   version: 2
   build:
     jobs:
-#      - build
-#      - test
+      - build
+      - test
       - fmtGitHubCommit
